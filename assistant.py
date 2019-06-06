@@ -1,48 +1,58 @@
 import os
-from slack import RTMClient,WebClient
+from slack import RTMClient, WebClient
 import requests
 import re
 import json
 import attachments
+from config import bot_token,CHATBOT_API
+import errors
 
-tok= os.environ['BOTUSER_TOKEN']
-rtmclient = RTMClient(token=tok)
-sclient = WebClient(tok)
+rtmclient = RTMClient(token=bot_token)
+sclient = WebClient(bot_token)
+
 
 # Call chatbot only when mentioned
-def direct_mention(message_text):
-
+def direct_mention(message_text: str) -> (str, str):
     info = re.search("^<@(|[WU].+?)>(.*)", message_text)
     if info:
-        return (info.group(1), info.group(2).strip())
+        return info.group(1), info.group(2).strip()
     else:
-        (None, None)
+        return None, None
 
 
 def process_message(**data):
     channel_id = data['data']['channel']
-    thread_ts = data['data']['ts']
+    user_id, message_text = direct_mention(data['data']['text'])
+    print(user_id, bot_id, data['data']['text'])
 
-    user_id, message_text =direct_mention(data['data']['text'])
+    if (user_id == bot_id):
 
+        try:
+            # Send user message to watson
+            response = requests.post(url=CHATBOT_API, json={'text': message_text})
 
-    if(user_id == bot_id):
+            try:
+                response = json.loads(response.text)
 
-        # Send user message to watson
-        response = requests.post(url="http://localhost:5000/messages",  json={'text': message_text})
-        response = json.loads(response.text)
+                # Check for options in response
+                if 'options' in response:
+                    sclient.chat_postMessage(
+                        channel=channel_id,
+                        attachments=attachments.available_features(response),
+                    )
+                else:
+                    sclient.chat_postMessage(
+                        channel=channel_id,
+                        text=response["text"],
+                    )
+            except:
 
-        # Check for options in response
-        if('options' in response):
-              sclient.chat_postMessage(
-                channel=channel_id,
-                attachments =attachments.available_features(response),
-            )
-        else:
-            sclient.chat_postMessage(
+                sclient.chat_postMessage(
                     channel=channel_id,
-                    text=response["text"],
+                    text=response["apps"][0]["name"],
                 )
+        except ConnectionRefusedError:
+            return errors.CONNECTION_ERR
 
 
 if __name__ == "__main__":
@@ -52,6 +62,3 @@ if __name__ == "__main__":
     # Connect with rtm api and check for new messages
     rtmclient.on(event='message', callback=process_message)
     rtmclient.start()
-
-# TODO: Error Handling
-# TODO: Deploy script
