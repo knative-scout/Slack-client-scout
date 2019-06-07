@@ -1,11 +1,10 @@
-import os
 from slack import RTMClient, WebClient
 import requests
 import re
 import json
-import attachments
-from config import bot_token,CHATBOT_API
-import errors
+from attachments import available_features
+from config.config import bot_token,CHATBOT_API
+from config import errors
 
 rtmclient = RTMClient(token=bot_token)
 sclient = WebClient(bot_token)
@@ -38,7 +37,7 @@ def process_message(**data):
                 if 'options' in response:
                     sclient.chat_postMessage(
                         channel=channel_id,
-                        attachments=attachments.available_features(response),
+                        attachments=available_features.available_features(response),
                     )
                 else:
                     sclient.chat_postMessage(
