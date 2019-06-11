@@ -18,11 +18,15 @@ def direct_mention(message_text: str) -> (str, str):
     else:
         return None, None
 
+def list_apps(response):
+    res = ""
+    for i in range(len(response)):
+        res+= "*App name:* " + response["apps"][i]["name"] + "\n*id:* " + response["apps"][i]["id"] +"\n*Description:* " + response["apps"][i]["description"] + "\n*Github:* " + response["apps"][i]["github_url"] +"\n\n"
+    return res
 
 def process_message(**data):
     channel_id = data['data']['channel']
     user_id, message_text = direct_mention(data['data']['text'])
-    print(user_id, bot_id, data['data']['text'])
 
     if (user_id == bot_id):
 
@@ -45,19 +49,19 @@ def process_message(**data):
                         text=response["text"],
                     )
             except:
-
                 sclient.chat_postMessage(
-                    channel=channel_id,
-                    text=response["apps"][0]["name"],
-                )
+                        channel=channel_id,
+                        text=list_apps(response)
+                    )
+
         except ConnectionRefusedError:
             return errors.CONNECTION_ERR
+
 
 
 if __name__ == "__main__":
     # Unique id given to bot for the particular workspace
     bot_id = sclient.api_call("auth.test")["user_id"]
-
     # Connect with rtm api and check for new messages
     rtmclient.on(event='message', callback=process_message)
     rtmclient.start()
