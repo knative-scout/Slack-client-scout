@@ -1,6 +1,7 @@
 from slack import WebClient
 from flask import Flask, request, make_response
 from config.config import bot_token
+import json
 
 slack = WebClient(bot_token)
 app = Flask(__name__)
@@ -23,6 +24,12 @@ def incoming_messages():
 
     return make_response("[NO EVENT IN SLACK REQUEST] These are not the droids\
                          you're looking for.", 404, {"X-Slack-No-Retry": 1})
+
+
+@app.route('/health', methods=['GET', 'POST'])
+def health_check():
+    status = {"ok": True}
+    return make_response(json.dumps(status), 200,)
 
 
 if __name__ == '__main__':
