@@ -29,8 +29,8 @@ def incoming_messages():
 @app.route('/health', methods=['GET', 'POST'])
 def health_check():
     status = {"ok": True}
-    return make_response(json.dumps(status), 200,)
+    return make_response(json.dumps(status), 200)
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=8080)
