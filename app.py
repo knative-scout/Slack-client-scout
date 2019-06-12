@@ -1,7 +1,5 @@
-from slack import WebClient
 from flask import Flask, make_response
 import processRequest
-from config.config import bot_token
 import json
 
 app = Flask(__name__)
@@ -21,7 +19,7 @@ def incoming_messages():
 @app.route('/health', methods=['GET', 'POST'])
 def health_check():
     status = {"ok": True}
-    return make_response(json.dumps(status), 200, )
+    return make_response(json.dumps(status), 200)
 
 
 if __name__ == '__main__':
