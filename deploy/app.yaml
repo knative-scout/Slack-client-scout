@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: prod-slack-client
-          image: kscout/slack-client:dev-5
+          image: kscout/slack-client:staging-latest
           env:
             - name: APP_HTTP_ADDR
               value: ":8080"
@@ -65,7 +65,7 @@ metadata:
   labels:
     app: slack-client
 spec:
-  host: slack.bot.kscout.io
+  host: slack-bot.kscout.io
   path: /
   to:
     kind: Service
@@ -77,5 +77,5 @@ spec:
     termination: edge
 status:
   ingress:
-    - host: slack.bot.kscout.io
+    - host: slack-bot.kscout.io
 

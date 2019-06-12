@@ -4,8 +4,7 @@ DOCKER_TAG_VERSION ?= staging-latest
 DOCKER_TAG ?= kscout/slack-client:${DOCKER_TAG_VERSION}
 
 # Build and Push to docker hub
-docker-cloud:
-	docker-build docker-push
+docker-cloud: docker-build docker-push
 
 
 # build Docker image
@@ -20,4 +19,4 @@ docker-push:
 
 # Runs the bot-api docker image on local machine
 docker-run:
-	docker run -it --rm -e API_KEY=${API_KEY} -e WORKSPACE_ID=${WORKSPACE_ID} --net host ${DOCKER_TAG}
+	docker run -it --rm -e BOTUSER_TOKEN=${BOTUSER_TOKEN} --net host ${DOCKER_TAG}
