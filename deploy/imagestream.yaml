@@ -1,9 +1,9 @@
 apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
-  name: prod-slack-client
+  name: slack-client
   labels:
-    app: bot-api
+    app: slack-client
 spec:
   dockerImageRepository: docker.io/kscout/slack-client
   tags:
