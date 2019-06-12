@@ -1,7 +1,8 @@
 from typing import Dict, List, Any, Union
 import json
 
-def available_features(response: json) -> dict:
+
+def available_apps(response: json) -> dict:
     return  {
                     "text": response['title'],
                     "fallback": "If you could read this message, you'd be choosing something fun to do right now.",
@@ -10,7 +11,7 @@ def available_features(response: json) -> dict:
                     "callback_id":"feature selection",
                     "actions": [
                         {
-                            "name": "feature_list",
+                            "name": "apps_list",
                             "text": "Pick a option...",
                             "type": "select",
                             "options": [
