@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
 metadata:
   name: prod-slack-client
   labels:
@@ -8,16 +8,25 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: slack-client
+    app: slack-client
+    env: prod
+  triggers:
+    - type: ImageChange
+      imageChangeParams:
+        containerNames:
+          - slack-client
+        from:
+          kind: ImageStreamTag
+          name: slack-client:latest
   template:
     metadata:
       labels:
         app: slack-client
+        env: prod
     spec:
       containers:
-        - name: prod-slack-client
-          image: kscout/slack-client:staging-latest
+        - name: slack-client
+          image: kscout/slack-client:latest
           env:
             - name: APP_HTTP_ADDR
               value: ":8080"
@@ -26,6 +35,11 @@ spec:
                 secretKeyRef:
                   name: slack-client-configuration
                   key: botusertoken
+            - name: VERIFICATION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: slack-client-configuration
+                  key: verificationtoken
           ports:
             - name: http
               containerPort: 8080
@@ -48,10 +62,12 @@ metadata:
   name: prod-slack-client
   labels:
     app: slack-client
+    env: prod
 spec:
   type: ClusterIP
   selector:
     app: slack-client
+    env: prod
   ports:
     - protocol: TCP
       port: 80
@@ -64,6 +80,7 @@ metadata:
   name: prod-slack-client
   labels:
     app: slack-client
+    env: prod
 spec:
   host: slack-bot.kscout.io
   path: /
