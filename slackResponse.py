@@ -2,7 +2,7 @@ import json
 from attachments import available_features,apps_list
 from config.config import slack,bot_token
 from flask import Response
-
+import time
 
 # Function to create detailed list of searched apps
 def list_apps(response: Response) -> str:
@@ -17,7 +17,7 @@ def list_apps(response: Response) -> str:
 # Function to create slack responses from app-api response
 def convert_watson_to_slack(response: json, channel_id: str):
     response = json.loads(response.text)
-
+    print(response)
     # Handle options parameter from watson
     if 'options' in response:
         slack.chat_postMessage(
@@ -30,19 +30,13 @@ def convert_watson_to_slack(response: json, channel_id: str):
         slack.chat_postMessage(
             token=bot_token,
             channel=channel_id,
-            attachments=apps_list.create_apps_info(response),
-        )
-        slack.chat_postMessage(
-            token=bot_token,
-            channel=channel_id,
-            text="\n" + response["text"],
-            attachments=[apps_list.available_apps(response)]
+            attachments=apps_list.create_apps_info(response) + [apps_list.available_apps(response)],
         )
 
     # generic text reply
     else:
         slack.chat_postMessage(
-            token=bot_token,
+            toke=bot_token,
             channel=channel_id,
             text=response["text"],
         )
