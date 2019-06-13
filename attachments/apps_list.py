@@ -8,7 +8,7 @@ def create_apps_buttons(response: json):
         options_arr.append(
             {
                 "name": "apps_list",
-                "text": str(response['apps'][i]['name']),
+                "text": "*Deploy:* "+ str(response['apps'][i]['name']),
                 "type": "button",
                 "value": str(response['apps'][i]['app_id'])
             })
