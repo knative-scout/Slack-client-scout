@@ -21,16 +21,19 @@ def convert_watson_to_slack(response: json, channel_id: str):
     # Handle options parameter from watson
     if 'options' in response:
         slack.chat_postMessage(
+            token=bot_token,
             channel=channel_id,
             attachments=[available_features.available_features(response)],
         )
         # compound message with watson api and app api responses
     elif 'apps' in response:
         slack.chat_postMessage(
+            token=bot_token,
             channel=channel_id,
             attachments=apps_list.create_apps_info(response),
         )
         slack.chat_postMessage(
+            token=bot_token,
             channel=channel_id,
             text="\n" + response["text"],
             attachments=[apps_list.available_apps(response)]
@@ -39,6 +42,7 @@ def convert_watson_to_slack(response: json, channel_id: str):
     # generic text reply
     else:
         slack.chat_postMessage(
+            token=bot_token,
             channel=channel_id,
             text=response["text"],
         )
