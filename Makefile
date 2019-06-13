@@ -3,7 +3,7 @@
 DOCKER_TAG_VERSION ?= staging-latest
 DOCKER_TAG ?= kscout/slack-client:${DOCKER_TAG_VERSION}
 
-NAMESPACE ?= kscout-test
+NAMESPACE ?= kscout
 POD ?= staging-slack-client
 
 PROD_NAMESPACE ?= kscout
