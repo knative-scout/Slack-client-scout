@@ -36,7 +36,7 @@ def convert_watson_to_slack(response: json, channel_id: str):
     # generic text reply
     else:
         slack.chat_postMessage(
-            toke=bot_token,
+            token=bot_token,
             channel=channel_id,
             text=response["text"],
         )
