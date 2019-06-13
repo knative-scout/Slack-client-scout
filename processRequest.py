@@ -7,10 +7,13 @@ from config import errors
 
 # Handle post requests from slack when user interacts with buttons/ menu
 def get_interactive_responses() -> Response:
-    form_json = json.loads(request.form["payload"])
-    verify_slack_token(form_json["token"])
+    if 'payload' in request.form:
+        form_json = json.loads(request.form["payload"])
+        verify_slack_token(form_json["token"])
 
-    return _event_handler(form_json['type'], form_json)
+        return _event_handler(form_json['type'], form_json)
+    else:
+        return make_response("Invalid Request",404)
 
 
 # Handle post requests from slack when user writes simple text

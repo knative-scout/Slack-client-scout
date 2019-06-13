@@ -37,7 +37,7 @@ def _event_handler(event_type: str, slack_event: json) -> Response:
         channel_id = slack_event['channel']['id']
 
     else:
-        return make_response("Invalid message", 403, )
+        return make_response("Invalid message", 403)
 
     conn_err = connect_to_watson(message_text, channel_id)
 
