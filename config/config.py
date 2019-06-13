@@ -8,4 +8,4 @@ slack = WebClient(bot_token)
 
 verify_token = os.environ['VERIFICATION_TOKEN']
 
-CHATBOT_API="http://localhost:3000/messages"
+CHATBOT_API="https://bot.kscout.io/messages"

@@ -24,7 +24,7 @@ def create_apps_info(response):
             "color": "#36a64f",
             "author_name": "Github",
             "author_link": response['apps'][i]['github_url'],
-            "author_icon": "http://flickr.com/icons/bobby.jpg",
+            "author_icon": response['apps'][i]['logo_url'],
             "title": response['apps'][i]['name'],
             "title_link": response['apps'][i]['github_url'],
             "text": response['apps'][i]['tagline'],
