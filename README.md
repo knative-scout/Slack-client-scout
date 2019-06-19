@@ -7,18 +7,17 @@ Slack interface for chatbot api
 - [Overview](#overview)
 - [Development](#development)
 - [Deployment](#deployment)
+- [Examples](#examples)
 
 # Overview
-
+Slack interface helps user to access chatbot api interactively. Users can ask queries regarding serverless, search for apps, and deploy apps using slack channel.
+Following [Examples](#examples) section will walk you through some sample conversations in a slack channel using the bot.
+ 
 # Development
-The Chatbot API server can be run locally.  
+The slack-client server can be run locally.  
 
 [Configuration](#configuration),
 and [Run](#run) sections.
-
-
-
-
 
 ## Configuration
 For local developement follow the steps below:
@@ -42,3 +41,5 @@ python app.py
 ```
 
 # Deployment
+
+# Examples
