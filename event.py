@@ -45,6 +45,8 @@ def _event_handler(event_type: str, slack_event: json) -> Response:
 
     conn_err = connect_to_watson(message_text, channel_id, user)
 
+    print("Channel in event handler: ", channel_id)
+
     if conn_err:
         return conn_err
 

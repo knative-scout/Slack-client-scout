@@ -18,6 +18,7 @@ def list_apps(response: Response) -> str:
 def convert_watson_to_slack(response: json, channel_id: str):
     response = json.loads(response.text)
     print(response)
+    print("Channel id: ", channel_id)
     # Handle options parameter from watson
     if 'options' in response:
         slack.chat_postMessage(
