@@ -2,6 +2,5 @@
 venv/
 app.log
 secrets.yaml
-__pycache__/
+__pycache__
 *.pyc
-*.*.pyc
