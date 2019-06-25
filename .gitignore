@@ -4,3 +4,4 @@ app.log
 secrets.yaml
 __pycache__/
 *.pyc
+*.*.pyc
