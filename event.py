@@ -20,7 +20,6 @@ def direct_mention(message_text: str) -> (str, str):
 def connect_to_watson(message_text, channel_id,user):
     try:
         response = requests.post(url=CHATBOT_API, json={'text': message_text, 'user':user})
-        print(response.text)
         convert_watson_to_slack(response, channel_id)
 
     except ConnectionRefusedError:
@@ -29,7 +28,6 @@ def connect_to_watson(message_text, channel_id,user):
 
 # Handle different event types and connection errors
 def _event_handler(event_type: str, slack_event: json) -> Response:
-    print(slack_event)
     if event_type == "app_mention":
         bot_id, message_text = direct_mention(slack_event['event']['text'])
         channel_id = slack_event['event']['channel']
@@ -44,8 +42,6 @@ def _event_handler(event_type: str, slack_event: json) -> Response:
         return make_response("Invalid message", 403)
 
     conn_err = connect_to_watson(message_text, channel_id, user)
-
-    print("Channel in event handler: ", channel_id)
 
     if conn_err:
         return conn_err

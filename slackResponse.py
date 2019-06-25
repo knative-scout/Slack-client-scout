@@ -1,6 +1,6 @@
 import json
 from attachments import available_features,apps_list
-from config.config import slack,bot_token
+from config.config import slack,bot_token,logger
 from flask import Response
 import time
 
@@ -16,19 +16,18 @@ def list_apps(response: Response) -> str:
 
 # Function to create slack responses from app-api response
 def convert_watson_to_slack(response: json, channel_id: str):
+
     response = json.loads(response.text)
-    print(response)
-    print("Channel id: ", channel_id)
     # Handle options parameter from watson
     if 'options' in response:
-        slack.chat_postMessage(
+        resp = slack.chat_postMessage(
             token=bot_token,
             channel=channel_id,
             attachments=[available_features.available_features(response)],
         )
         # compound message with watson api and app api responses
     elif 'apps' in response:
-        slack.chat_postMessage(
+        resp = slack.chat_postMessage(
             token=bot_token,
             channel=channel_id,
             attachments=apps_list.create_apps_info(response) + [apps_list.available_apps(response)],
@@ -36,8 +35,9 @@ def convert_watson_to_slack(response: json, channel_id: str):
 
     # generic text reply
     else:
-        slack.chat_postMessage(
+        resp = slack.chat_postMessage(
             token=bot_token,
             channel=channel_id,
             text=response["text"],
         )
+    logger.debug("Slack Post: " + str(resp))
