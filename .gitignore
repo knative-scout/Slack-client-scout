@@ -3,4 +3,4 @@ venv/
 app.log
 secrets.yaml
 __pycache__/
-config/__pycache__/
+*.pyc
