@@ -15,29 +15,35 @@ def list_apps(response: Response) -> str:
 
 
 # Function to create slack responses from app-api response
-def convert_watson_to_slack(response: json, channel_id: str):
 
+def convert_watson_to_slack(response: json, channel_id: str, user: str):
     response = json.loads(response.text)
+    resp =""
     # Handle options parameter from watson
     if 'options' in response:
+
         resp = slack.chat_postMessage(
             token=bot_token,
             channel=channel_id,
+            text= '<@'+user +'>',
             attachments=[available_features.available_features(response)],
         )
-        # compound message with watson api and app api responses
+    # compound message with watson api and app api responses
     elif 'apps' in response:
         resp = slack.chat_postMessage(
             token=bot_token,
             channel=channel_id,
+            text = '<@'+user + '>',
             attachments=apps_list.create_apps_info(response) + [apps_list.available_apps(response)],
         )
 
     # generic text reply
-    else:
-        resp = slack.chat_postMessage(
+
+    elif 'text' in response:
+       resp = slack.chat_postMessage(
             token=bot_token,
             channel=channel_id,
-            text=response["text"],
+            text='<@'+user + '>' + response["text"],
         )
+
     logger.debug("Slack Post: " + str(resp))
