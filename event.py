@@ -20,6 +20,7 @@ def direct_mention(message_text: str) -> (str, str):
 def connect_to_watson(message_text, channel_id,user):
     try:
         response = requests.post(url=CHATBOT_API, json={'text': message_text, 'user':user})
+
         convert_watson_to_slack(response, channel_id,user)
 
     except ConnectionRefusedError:
