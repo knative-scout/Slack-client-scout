@@ -4,7 +4,7 @@ import logging
 
 bot_token = os.environ['BOTUSER_TOKEN']
 
-slack = WebClient(bot_token)
+slack = WebClient(token=bot_token)
 
 verify_token = os.environ['VERIFICATION_TOKEN']
 
