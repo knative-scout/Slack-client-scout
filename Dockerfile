@@ -14,8 +14,8 @@ RUN pip install -r /srv/bot_api/requirements.txt
 
 
 FROM base
-COPY --from=builder /usr/local /usr/local
-COPY --from=builder /etc/nginx /etc/nginx
+COPY --from=builder /usr /usr
+COPY --from=builder /etc /etc
 COPY --from=builder /var/lib/nginx /var/lib/nginx
 COPY --from=builder /var/log/nginx /var/log/nginx
 COPY . /srv/slack_client
