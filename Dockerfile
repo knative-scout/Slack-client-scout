@@ -1,7 +1,6 @@
-FROM python:3.7-slim
+FROM python:3.7-slim as base
 
-COPY . /srv/slack_client
-WORKDIR /srv/slack_client
+FROM base as builder
 
 RUN apt-get clean \
     && apt-get -y update
@@ -10,11 +9,21 @@ RUN apt-get -y install nginx \
     && apt-get -y install python3-pip python3-dev \
     && apt-get -y install build-essential
 
-RUN pip3 install -r requirements.txt
+COPY requirements.txt /srv/bot_api/requirements.txt
+RUN pip install -r /srv/bot_api/requirements.txt
+
+
+FROM base
+COPY --from=builder /usr/local /usr/local
+COPY --from=builder /etc/nginx /etc/nginx
+COPY --from=builder /var/lib/nginx /var/lib/nginx
+COPY --from=builder /var/log/nginx /var/log/nginx
+COPY . /srv/slack_client
+
+WORKDIR /srv/slack_client
+
 
 RUN rm /etc/nginx/sites-enabled/default
-RUN rm -r /root/.cache
-
 
 RUN chmod -R 777 /var/log/nginx /var/run /var/lib/nginx \
      && chgrp -R 0 /etc/nginx \
