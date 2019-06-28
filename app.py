@@ -2,6 +2,7 @@ from flask import Flask, make_response,request
 import processRequest
 import json
 from config.config import logger
+from config.loggingfilter import *
 app = Flask(__name__)
 
 # Event listener from slack
