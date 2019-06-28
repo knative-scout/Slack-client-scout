@@ -33,6 +33,7 @@ RUN rm -v /etc/nginx/nginx.conf
 COPY deploy/nginx.conf /etc/nginx
 
 RUN chmod 777 ./nginxstart.sh
+RUN chmod 777 /srv/slack_client
 
 CMD ["nginx", "-g", "daemon off;"]
 
