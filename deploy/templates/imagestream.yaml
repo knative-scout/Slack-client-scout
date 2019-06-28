@@ -9,7 +9,7 @@ spec:
   tags:
     - from:
         kind: DockerImage
-        name: docker.io/kscout/slack-client
+        name: docker.io/kscout/slack-client:latest
       name: latest
       importPolicy:
         scheduled: true
