@@ -21,7 +21,7 @@ def connect_to_watson(message_text, channel_id,user):
     try:
         response = requests.post(url=CHATBOT_API, json={'text': message_text, 'user':user})
 
-        convert_watson_to_slack(response, channel_id,user)
+        convert_watson_to_slack(json.loads(response.json()), channel_id, user)
 
     except ConnectionRefusedError:
         return make_response(errors.CONNECTION_ERR, 404)
