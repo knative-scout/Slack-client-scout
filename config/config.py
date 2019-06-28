@@ -13,7 +13,7 @@ CHATBOT_API = "https://bot.kscout.io/messages"
 
 # Logging Config
 
-logger = logging.getLogger("slack-api-logger")
+logger = logging.getLogger("Logger")
 logger.setLevel(logging.DEBUG)
 
 # create console handler and set level to debug
