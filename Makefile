@@ -25,7 +25,7 @@ docker-push:
 
 # Runs the bot-api docker image on local machine
 docker-run:
-	docker run -it --rm -e BOTUSER_TOKEN=${BOTUSER_TOKEN} --net host ${DOCKER_TAG}
+	docker run -it --rm -e BOTUSER_TOKEN=${BOTUSER_TOKEN} -e VERIFICATION_TOKEN={VERIFICATION_TOKEN} --net host ${DOCKER_TAG}
 
 #Staging the app
 staging: docker-cloud staging-rollout
