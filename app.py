@@ -18,6 +18,7 @@ def incoming_messages():
 
 
 @app.route('/health', methods=['GET', 'POST'])
+@disable_logging
 def health_check():
     status = {"ok": True}
     return make_response(json.dumps(status), 200)
