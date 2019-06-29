@@ -1,9 +1,9 @@
-import json
 from attachments import available_features,apps_list
-from config.config import slack,bot_token,logger
-from flask import Response
-from slack import errors
-import requests
+from config.config import slack, bot_token
+from config.panic import *
+from config.logger import *
+
+
 # Function to create detailed list of searched apps
 def list_apps(response: Response) -> str:
     res = ""
@@ -17,39 +17,40 @@ def list_apps(response: Response) -> str:
 # Function to create slack responses from app-api response
 
 def convert_watson_to_slack(response: json, channel_id: str, user: str):
-    # response = json.loads(response)
     logger.debug('Slack Post Request: token - ' + str(bot_token) + ' Channel - ' + str(channel_id))
+    print (response)
     resp =""
     # Handle options parameter from watson
     try:
-        if 'options' in response:
+        if response['response_type'] == 'option':
+            print("response type = option")
             resp = slack.chat_postMessage(
-                token=bot_token,
-                channel=channel_id,
-                text= '<@'+user +'>',
-                attachments=[available_features.available_features(response)],
+                token = bot_token,
+                channel = channel_id,
+                text = '<@'+user +'>',
+                attachments = [available_features.available_features(response)],
             )
         # compound message with watson api and app api responses
         elif 'apps' in response:
             resp = slack.chat_postMessage(
-                token=bot_token,
-                channel=channel_id,
+                token = bot_token,
+                channel = channel_id,
                 text = '<@'+user + '>',
-                attachments=apps_list.create_apps_info(response) + [apps_list.available_apps(response)],
+                attachments = apps_list.create_apps_info(response) + [apps_list.available_apps(response)],
             )
 
         # generic text reply
-
         elif 'text' in response:
-           resp = slack.chat_postMessage(
-                token=bot_token,
-                channel=channel_id,
-                text='<@'+user + '>' + response["text"],
+            resp = slack.chat_postMessage(
+                token = bot_token,
+                channel = channel_id,
+                text = '<@'+user + '>' + response["text"],
             )
 
         logger.debug("Slack Post Response: " + str(resp))
 
-    except errors.SlackApiError as e:
-        logger.debug(e)
+    except Exception as e:
+        print (str(e))
+        raise_exception("Error while posting slack response", str(e))
 
 
