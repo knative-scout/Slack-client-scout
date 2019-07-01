@@ -4,7 +4,7 @@ from config.config import bot_token
 from config.loggingfilter import *
 from config.panic import *
 from slack import WebClient
-
+from config.logger import *
 
 slack = WebClient(token=bot_token)
 
@@ -21,7 +21,9 @@ def incoming_messages():
         if 'payload' in request.form:
             try:
                 ret_resp = processRequest.get_interactive_responses()
+                logger.info(json.loads(request.form["payload"]))
                 if not isinstance(ret_resp, str):
+                    logger.info(ret_resp.channel, ret_resp.bot_token, ret_resp.text, ret_resp.attachments)
                     slack.chat_postMessage(
                         token=bot_token,
                         channel = ret_resp.channel,
@@ -34,12 +36,12 @@ def incoming_messages():
                 raise_exception("Exception while processing payload", str(e))
         else:
             try:
-                print (request.get_json())
+                logger.info(request.get_json())
                 ret_resp = processRequest.get_generic_responses()
                 if not isinstance(ret_resp, str):
-                    print(ret_resp.channel)
+                    logger.info(ret_resp.channel, ret_resp.bot_token, ret_resp.text, ret_resp.attachments)
                     slack.chat_postMessage(
-                        token=bot_token,
+                        token = bot_token,
                         channel = ret_resp.channel,
                         text = ret_resp.text,
                         attachments = ret_resp.attachments,
@@ -50,7 +52,7 @@ def incoming_messages():
                 raise_exception("Exception while getting generic response", str(e))
 
     except Exception as e:
-        print (str(e))
+        logger.error(str(e))
         return_exception("Error in Incoming Message", str(e), 404)
 
     return_exception("Internal Server Error", "No Message from Server", 404)
