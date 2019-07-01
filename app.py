@@ -21,16 +21,16 @@ def incoming_messages():
         if 'payload' in request.form:
             try:
                 ret_resp = processRequest.get_interactive_responses()
-                logger.info(json.loads(request.form["payload"]))
+                logger.info(str(json.loads(request.form["payload"])))
                 if not isinstance(ret_resp, str):
-                    logger.info(ret_resp.channel, bot_token, ret_resp.text, ret_resp.attachments)
+                    logger.info(""+ret_resp.channel+","+bot_token+","+ret_resp.text+","+ret_resp.attachments)
                     status = slack.chat_postMessage(
                         token=bot_token,
                         channel = ret_resp.channel,
                         text = ret_resp.text,
                         attachments = ret_resp.attachments,
                     )
-                    logger.debug(status)
+                    logger.debug(str(status))
                     return Response(status=200, mimetype='application/json')
                 else:
                     return Response(json.dumps(ret_resp), status=200, mimetype='application/json')
@@ -38,17 +38,17 @@ def incoming_messages():
                 raise_exception("Exception while processing payload", str(e))
         else:
             try:
-                logger.info(request.get_json())
+                logger.info(str(request.get_json()))
                 ret_resp = processRequest.get_generic_responses()
                 if not isinstance(ret_resp, str):
-                    logger.info(ret_resp.channel, bot_token, ret_resp.text, ret_resp.attachments)
+                    logger.info(""+ret_resp.channel+","+bot_token+","+ret_resp.text+","+ret_resp.attachments)
                     status = slack.chat_postMessage(
                         token = bot_token,
                         channel = ret_resp.channel,
                         text = ret_resp.text,
                         attachments = ret_resp.attachments,
                     )
-                    logger.debug(status)
+                    logger.debug(str(status))
                     return Response(status=200, mimetype='application/json')
                 else:
                     return Response(json.dumps(ret_resp), status=200, mimetype='application/json')
