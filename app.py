@@ -31,6 +31,7 @@ def incoming_messages():
                         attachments = ret_resp.attachments,
                     )
                     logger.debug(status)
+                    return Response(status=200, mimetype='application/json')
                 else:
                     return Response(json.dumps(ret_resp), status=200, mimetype='application/json')
             except Exception as e:
@@ -48,6 +49,7 @@ def incoming_messages():
                         attachments = ret_resp.attachments,
                     )
                     logger.debug(status)
+                    return Response(status=200, mimetype='application/json')
                 else:
                     return Response(json.dumps(ret_resp), status=200, mimetype='application/json')
             except Exception as e:
