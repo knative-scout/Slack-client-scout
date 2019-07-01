@@ -5,7 +5,7 @@ from config.panic import *
 
 
 # Handle post requests from slack when user interacts with buttons/ menu
-def get_interactive_responses() -> Response:
+def get_interactive_responses():
     try:
         form_json = json.loads(request.form["payload"])
 
@@ -23,7 +23,7 @@ def get_generic_responses():
         slack_event = request.get_json()
 
         if "challenge" in slack_event:
-            return json.dumps(slack_event["challenge"])
+            return slack_event["challenge"]
 
         if "event" in slack_event:
             event_type = slack_event["event"]["type"]

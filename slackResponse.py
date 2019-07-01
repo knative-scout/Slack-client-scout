@@ -1,11 +1,9 @@
-from attachments import available_features,apps_list
-from config.config import slack, bot_token
+from attachments import available_features, apps_list
 from config.panic import *
-from config.logger import *
 
 
 # Function to create detailed list of searched apps
-def list_apps(response: Response) -> str:
+def list_apps(response: Response):
     res = ""
     for i in range(len(response['apps'])):
         res += "*App name:* " + response["apps"][i]["name"] + "\n*id:* " + response["apps"][i][

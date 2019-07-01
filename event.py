@@ -40,6 +40,8 @@ def _event_handler(event_type: str, slack_event: json):
     else:
         raise_exception("Error while handling event", "Invalid Event")
 
-    call_chatbot_api(message_text, resp.user)
+    text, attachments = call_chatbot_api(message_text, resp.user)
+    resp.text = text
+    resp.attachments = attachments
 
-    return json.dumps("Sure!")
+    return resp
