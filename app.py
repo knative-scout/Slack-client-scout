@@ -24,12 +24,13 @@ def incoming_messages():
                 logger.info(json.loads(request.form["payload"]))
                 if not isinstance(ret_resp, str):
                     logger.info(ret_resp.channel, ret_resp.bot_token, ret_resp.text, ret_resp.attachments)
-                    slack.chat_postMessage(
+                    status = slack.chat_postMessage(
                         token=bot_token,
                         channel = ret_resp.channel,
                         text = ret_resp.text,
                         attachments = ret_resp.attachments,
                     )
+                    logger.debug(status)
                 else:
                     return Response(json.dumps(ret_resp), status=200, mimetype='application/json')
             except Exception as e:
@@ -40,12 +41,13 @@ def incoming_messages():
                 ret_resp = processRequest.get_generic_responses()
                 if not isinstance(ret_resp, str):
                     logger.info(ret_resp.channel, ret_resp.bot_token, ret_resp.text, ret_resp.attachments)
-                    slack.chat_postMessage(
+                    status = slack.chat_postMessage(
                         token = bot_token,
                         channel = ret_resp.channel,
                         text = ret_resp.text,
                         attachments = ret_resp.attachments,
                     )
+                    logger.debug(status)
                 else:
                     return Response(json.dumps(ret_resp), status=200, mimetype='application/json')
             except Exception as e:
