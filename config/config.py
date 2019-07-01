@@ -10,7 +10,6 @@ CHATBOT_API = "https://bot.kscout.io/messages"
 
 slack = WebClient(token=bot_token)
 
-
 class SlackMessage(object):
     def __init__(self):
         self.bot_token = ""
