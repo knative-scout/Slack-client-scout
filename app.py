@@ -23,7 +23,7 @@ def incoming_messages():
                 ret_resp = processRequest.get_interactive_responses()
                 logger.info(json.loads(request.form["payload"]))
                 if not isinstance(ret_resp, str):
-                    logger.info(ret_resp.channel, ret_resp.bot_token, ret_resp.text, ret_resp.attachments)
+                    logger.info(ret_resp.channel, bot_token, ret_resp.text, ret_resp.attachments)
                     status = slack.chat_postMessage(
                         token=bot_token,
                         channel = ret_resp.channel,
@@ -41,7 +41,7 @@ def incoming_messages():
                 logger.info(request.get_json())
                 ret_resp = processRequest.get_generic_responses()
                 if not isinstance(ret_resp, str):
-                    logger.info(ret_resp.channel, ret_resp.bot_token, ret_resp.text, ret_resp.attachments)
+                    logger.info(ret_resp.channel, bot_token, ret_resp.text, ret_resp.attachments)
                     status = slack.chat_postMessage(
                         token = bot_token,
                         channel = ret_resp.channel,
