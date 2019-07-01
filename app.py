@@ -1,10 +1,8 @@
 from flask import Flask
 import processRequest
-import config
-from config.config import SlackMessage, bot_token
+from config.config import bot_token
 from config.loggingfilter import *
 from config.panic import *
-from config.logger import *
 from slack import WebClient
 
 
@@ -23,7 +21,7 @@ def incoming_messages():
         if 'payload' in request.form:
             try:
                 ret_resp = processRequest.get_interactive_responses()
-                if isinstance(ret_resp, SlackMessage):
+                if not isinstance(ret_resp, str):
                     slack.chat_postMessage(
                         token=bot_token,
                         channel = ret_resp.channel,
@@ -38,11 +36,11 @@ def incoming_messages():
             try:
                 print (request.get_json())
                 ret_resp = processRequest.get_generic_responses()
-                print (ret_resp.channel)
                 if not isinstance(ret_resp, str):
+                    print(ret_resp.channel)
                     slack.chat_postMessage(
                         token=bot_token,
-                        channel = "#scout-public-channel",#ret_resp.channel,
+                        channel = ret_resp.channel,
                         text = ret_resp.text,
                         attachments = ret_resp.attachments,
                     )
