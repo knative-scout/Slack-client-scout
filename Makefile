@@ -92,7 +92,7 @@ PROD_NAMESPACE ?= kscout
 PROD_POD ?= prod-slack-client
 
 # Build and Push to docker hub
-docker-cloud: docker-build-classic docker-push-classic
+docker-cloud-classic: docker-build-classic docker-push-classic
 
 
 # build Docker image

@@ -26,5 +26,3 @@ http:
   # Mount secret under path
   secretMount: /mnt/secret
 
-  # Pass Mongo credentials to app container
-  mongoEnabled: true
