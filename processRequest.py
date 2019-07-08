@@ -21,7 +21,6 @@ def get_interactive_responses():
 def get_generic_responses():
     try:
         slack_event = request.get_json()
-        print(slack_event)
 
         if "challenge" in slack_event:
             return slack_event["challenge"]

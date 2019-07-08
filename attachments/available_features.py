@@ -22,6 +22,7 @@ def create_buttons(response: json) -> dict:
 
     return features
 
+
 # only allow maximum of 10 buttons
 def create_buttons_gt_limit(response: json) -> dict:
 
@@ -41,8 +42,8 @@ def create_buttons_gt_limit(response: json) -> dict:
             "color": "#3AA3E3",
             "attachment_type": "default",
             "callback_id": "feature selection",
-            "actions": [    {
-                    "name": "games_list",
+            "actions": [ {
+                    "name": "questions_list",
                     "text": "Pick a question...",
                     "type": "select",
                     "options": actions
