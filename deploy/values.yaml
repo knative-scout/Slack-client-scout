@@ -1,10 +1,10 @@
 # Global shared chart configuration
 global:
   # Deployment environment, usually "prod" or "staging"
-  env:
+  #env:
 
   # App being deployed
-  app: slack-client
+  app: slack-chat-bot-api
 
 # HTTP service chart
 http:
