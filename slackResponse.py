@@ -16,16 +16,17 @@ def list_apps(response: Response):
 
 def create_slack_response(response: json):
     # Handle options parameter from API
+    response = response
     try:
-        if response['response_type'] == 'option':
-            text = ''
-            attachments = [available_features.available_features(response)]
-            return text, attachments
-
         # compound message with watson api and app api responses
-        elif 'apps' in response:
+        if 'apps' in response:
             text = ""
             attachments = apps_list.create_apps_info(response) + [apps_list.available_apps(response)]
+            return text, attachments
+
+        elif 'response_type' in response and response['response_type'] == 'option':
+            text = ''
+            attachments = [available_features.available_features(response)]
             return text, attachments
 
         # generic text reply

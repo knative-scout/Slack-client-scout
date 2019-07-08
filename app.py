@@ -41,7 +41,9 @@ def incoming_messages():
                 logger.info(str(request.get_json()))
                 ret_resp = processRequest.get_generic_responses()
                 if not isinstance(ret_resp, str):
+
                     logger.info(""+ret_resp.channel+","+bot_token+","+ret_resp.text+","+str(ret_resp.attachments))
+
                     status = slack.chat_postMessage(
                         token = bot_token,
                         channel = ret_resp.channel,
