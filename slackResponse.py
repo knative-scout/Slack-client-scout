@@ -1,6 +1,6 @@
 from attachments import available_features, apps_list
 from config.panic import *
-
+from htmlslacker import HTMLSlacker
 
 # Function to create detailed list of searched apps
 def list_apps(response: Response):
@@ -16,7 +16,6 @@ def list_apps(response: Response):
 
 def create_slack_response(response: json):
     # Handle options parameter from API
-    response = response
     try:
         # compound message with watson api and app api responses
         if 'apps' in response:
@@ -25,13 +24,20 @@ def create_slack_response(response: json):
             return text, attachments
 
         elif 'response_type' in response and response['response_type'] == 'option':
-            text = ''
-            attachments = [available_features.available_features(response)]
-            return text, attachments
+            if len(response['options']) <= 5:
+                text = ''
+                attachments = [available_features.create_buttons(response)]
+                return text, attachments
+            else:
+                text = ''
+                attachments = [available_features.create_buttons_gt_limit(response)]
+                return text, attachments
+
 
         # generic text reply
         elif 'text' in response:
-            text = response["text"]
+            # HTMLSlacker converts html to markdown
+            text = HTMLSlacker(response["text"]).get_output()
             attachments = None
             return text, attachments
 
