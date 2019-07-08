@@ -21,6 +21,7 @@ def get_interactive_responses():
 def get_generic_responses():
     try:
         slack_event = request.get_json()
+        print(slack_event)
 
         if "challenge" in slack_event:
             return slack_event["challenge"]
@@ -28,7 +29,8 @@ def get_generic_responses():
         if "event" in slack_event:
             event_type = slack_event["event"]["type"]
 
-            return _event_handler(event_type, slack_event)
+            if event_type == "app_mention" or event_type == "interactive_message":
+                return _event_handler(event_type, slack_event)
 
         raise_exception("Error In Generic Response", "No Event")
     except Exception as e:

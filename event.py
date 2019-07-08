@@ -27,13 +27,18 @@ def call_chatbot_api(message_text, user):
 # Handle different event types and connection errors
 def _event_handler(event_type: str, slack_event: json):
     resp = SlackMessage
+    message_text=""
     if event_type == "app_mention":
         bot_id, message_text = direct_mention(slack_event['event']['text'])
         resp.channel= slack_event['event']['channel']
         resp.user = slack_event['event']['user']
 
     elif event_type == "interactive_message":
-        message_text = slack_event['actions'][0]["value"]
+        if "selected_options" in slack_event['actions'][0]:
+            message_text = slack_event['actions'][0]["selected_options"][0]["value"]
+        else:
+            message_text = slack_event['actions'][0]["value"]
+
         resp.channel = slack_event['channel']['id']
         resp.user = slack_event['user']['id']
 
