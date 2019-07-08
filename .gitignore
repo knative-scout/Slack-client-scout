@@ -8,3 +8,4 @@ __pycache__
 # Secrets
 .env
 *secrets*
+!deploy/values.secrets.example.yaml
