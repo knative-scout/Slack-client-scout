@@ -26,7 +26,7 @@ def create_apps_info(response):
             "author_link": response['apps'][i]['github_url'],
             "author_icon": response['apps'][i]['logo_url'],
             "title": response['apps'][i]['name'],
-            "title_link": response['apps'][i]['github_url'],
+            "title_link": response['apps'][i]['site_url'],
             "text": response['apps'][i]['tagline'],
             "fields": [
                 {
@@ -35,7 +35,6 @@ def create_apps_info(response):
                     "short": False
                 }
             ],
-            "image_url": response['apps'][i]['logo_url'],
             "thumb_url": response['apps'][i]['logo_url'],
             "footer": "Kscout",
             "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
