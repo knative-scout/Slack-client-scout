@@ -38,7 +38,6 @@ def create_slack_response(response: json):
         elif 'text' in response:
             # HTMLSlacker converts html to markdown
             text = HTMLSlacker(response["text"]).get_output()
-            print(text)
             attachments = None
             return text, attachments
 
