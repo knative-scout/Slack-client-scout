@@ -1,5 +1,6 @@
 from attachments import available_features, apps_list
 from config.panic import *
+from config.markdown_parser import mrkdwn_to_slack
 from htmlslacker import HTMLSlacker
 
 # Function to create detailed list of searched apps
@@ -36,8 +37,7 @@ def create_slack_response(response: json):
 
         # generic text reply
         elif 'text' in response:
-            # HTMLSlacker converts html to markdown
-            text = HTMLSlacker(response["text"]).get_output()
+            text = mrkdwn_to_slack(response["text"])
             attachments = None
             return text, attachments
 
