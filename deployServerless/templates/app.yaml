@@ -1,0 +1,30 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: prod-slack-api
+  labels:
+    app: slack-api
+    env: prod
+spec:
+  runLatest:
+    configuration:
+      revisionTemplate:
+        spec:
+          containers:
+            - name: slack-api
+              image: kscout/slack-chat-bot-api:prod-latest
+              env:
+                - name: APP_HTTP_ADDR
+                  value: ":8080"
+                - name: BOTUSER_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: slack-api-configuration
+                      key: botusertoken
+                - name: VERIFICATION_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: slack-api-configuration
+                      key: verificationtoken
+
+
