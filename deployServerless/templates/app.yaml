@@ -26,5 +26,10 @@ spec:
                     secretKeyRef:
                       name: slack-api-configuration
                       key: verificationtoken
-
-
+              resources:
+                requests:
+                  memory: "150Mi"
+                  cpu: "300m"
+                limits:
+                  memory: "400Mi"
+                  cpu: "750m"
