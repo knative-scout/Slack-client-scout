@@ -21,13 +21,14 @@ def incoming_messages():
         if 'payload' in request.form:
             try:
                 ret_resp = processRequest.get_interactive_responses()
-                logger.info(str(json.loads(request.form["payload"])))
+                request_info = (json.loads(request.form["payload"]))
+                logger.info(str(request_info))
                 if not isinstance(ret_resp, str):
                     logger.info(""+ret_resp.channel+","+ret_resp.text+","+str(ret_resp.attachments))
                     status = slack.chat_postMessage(
                         token=bot_token,
                         channel = ret_resp.channel,
-                        text = ret_resp.text,
+                        text = '<@'+str(request_info['user']['id']) +'>' + ret_resp.text,
                         attachments = ret_resp.attachments,
                     )
                     logger.debug(str(status))
@@ -38,7 +39,8 @@ def incoming_messages():
                 raise_exception("Exception while processing payload", str(e))
         else:
             try:
-                logger.info(str(request.get_json()))
+                request_info = request.get_json()
+                logger.info(str(request_info))
                 ret_resp = processRequest.get_generic_responses()
                 if not isinstance(ret_resp, str):
 
@@ -47,7 +49,7 @@ def incoming_messages():
                     status = slack.chat_postMessage(
                         token = bot_token,
                         channel = ret_resp.channel,
-                        text = ret_resp.text,
+                        text =  '<@'+str(request_info['event']['user']) +'>' + ret_resp.text,
                         attachments = ret_resp.attachments,
                     )
                     logger.debug(str(status))
